@@ -74,11 +74,11 @@ class App {
 
         // input for latitude
         // <input type="text" id="latitude" class="form-control"></input>
-        const elInputForLatitude = document.createElement('input');
-        elInputForLatitude.type = 'text';
-        elInputForLatitude.id = 'latitude';
-        elInputForLatitude.className = 'form-control';
-        elDivFormGroup.appendChild(elInputForLatitude);
+        this.elInputNewLat = document.createElement('input');
+        this.elInputNewLat.type = 'text';
+        this.elInputNewLat.id = 'latitude';
+        this.elInputNewLat.className = 'form-control';
+        elDivFormGroup.appendChild(this.elInputNewLat);
 
         elDivContainer.appendChild(elDivFormGroup);
 
@@ -96,11 +96,11 @@ class App {
 
         // input for longitude
         // <input type="text" id="longitude" class="form-control"></input>
-        const elInputForLongitude = document.createElement('input');
-        elInputForLongitude.type = 'text';
-        elInputForLongitude.id = 'longitude';
-        elInputForLongitude.className = 'form-control';
-        elDivFormGroup2.appendChild(elInputForLongitude);
+        this.elInputNewLon = document.createElement('input');
+        this.elInputNewLon.type = 'text';
+        this.elInputNewLon.id = 'longitude';
+        this.elInputNewLon.className = 'form-control';
+        elDivFormGroup2.appendChild(this.elInputNewLon);
 
         elDivContainer.appendChild(elDivFormGroup2);
 
@@ -125,11 +125,11 @@ class App {
 
         // input for city
         // <input type="text" id="city" class="form-control"></input>
-        const elInputForCity = document.createElement('input');
-        elInputForCity.type = 'text';
-        elInputForCity.id = 'city';
-        elInputForCity.className = 'form-control';
-        elDivFormGroup3.appendChild(elInputForCity);
+        this.elInputNewCity = document.createElement('input');
+        this.elInputNewCity.type = 'text';
+        this.elInputNewCity.id = 'city';
+        this.elInputNewCity.className = 'form-control';
+        elDivFormGroup3.appendChild(this.elInputNewCity);
 
         // button to get weather
         // <button class="btn btn-primary my-3 form-control" onclick="getWeather()">Afficher la météo</button>
@@ -141,15 +141,39 @@ class App {
 
         // div for result
         // <div id="result" class="mt-3"></div>
-        const elDivResult = document.createElement('div');
-        elDivResult.id ='result';
-        elDivResult.className ='mt-3';
-        elDivContainer.appendChild(elDivResult);
+        this.elDivResult = document.createElement('div');
+        this.elDivResult.id ='result';
+        this.elDivResult.className ='mt-3';
+        elDivContainer.appendChild(this.elDivResult);
 
         // on met la div container dans le body
         document.body.appendChild(elDivContainer);
     }
-    getWeather() {}
+
+    // méthode qui affiche la météo
+    getWeather() {
+        // on récupère les valeurs des inputs
+        const newLatitude = this.elInputNewLat.value.trim();
+        const newLongitude = this.elInputNewLon.value.trim();
+        const newCity = this.elInputNewCity.value.trim();
+
+        //TODO: faire appel au service pour récupérer la météo
+        const newWeatherLiteral = {
+            lon: newLongitude,
+            lat: newLatitude,
+            q: newCity
+        }
+
+        // on appelle le service 
+        this.weatherServiceFr
+        .getCurrent(newWeatherLiteral) 
+        .then(this.handleServiceResponse.bind(this))
+
+    }
+
+    handleServiceResponse(serviceResponse) {
+        console.log( 'service', serviceResponse);
+    }
 
 }
 
