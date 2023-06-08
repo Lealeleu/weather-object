@@ -4,7 +4,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 // importer les icones de bootstrap
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
+import '../assets/style.css'
+
 import WeatherService from './Service/WeatherService';
+import CurrentWeather from './Class/CurrentWeather';
+import MainWeather from './Class/MainWeather';
 
 const apiKey = '46649de7b444f6715a37d32d10968c50'
 // on déclare notre clé d'API
@@ -110,6 +114,8 @@ class App {
         elH4ForCity.textContent = 'Entrez le nom de la vile :';
         elH4ForCity.className = 'mt-5';
 
+        elDivContainer.appendChild(elH4ForCity);
+
         // div for city
         // <div class="form-group"></div>
         const elDivFormGroup3 = document.createElement('div');
@@ -141,10 +147,10 @@ class App {
 
         // div for result
         // <div id="result" class="mt-3"></div>
-        this.elDivResult = document.createElement('div');
-        this.elDivResult.id ='result';
-        this.elDivResult.className ='mt-3';
-        elDivContainer.appendChild(this.elDivResult);
+        this.elResultDiv = document.createElement('div');
+        this.elResultDiv.id ='result';
+        this.elResultDiv.className ='mt-3';
+        elDivContainer.appendChild(this.elResultDiv);
 
         // on met la div container dans le body
         document.body.appendChild(elDivContainer);
@@ -173,6 +179,22 @@ class App {
 
     handleServiceResponse(serviceResponse) {
         console.log( 'service', serviceResponse);
+        // si la réponse n'est pas "ok" on affiche une erreur
+        if(!serviceResponse.ok) {
+            this.elResultDiv.append(this.getErrorDom(serviceResponse.error));
+        }
+        // si la réponse est "ok" on affiche la météo
+        const currentWeather = new MainWeather(serviceResponse.data);
+        this.elResultDiv.append(currentWeather.getDom());
+    }
+
+    getErrorDom(error) {
+        console.log( 'error', error);
+        const elDivError = document.createElement('div');
+        elDivError.innerHTML = '';
+        elDivError.className = 'weather-item error text-danger display-4';
+        elDivError.innerHTML = error;
+        return elDivError;
     }
 
 }

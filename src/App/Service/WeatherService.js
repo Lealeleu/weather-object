@@ -43,14 +43,14 @@ class WeatherService {
                 // on check le code de retour de l'API
                 // code 400 = erreur de requête
                 // code 404 = ville non trouvée
-                if (data.cod === 400 || data.cod === 404) {
+                if (data.cod == 400 || data.cod == 404) {
                     resolve(new ServiceResponse(false, data.message, null));
                 } 
                 resolve(new ServiceResponse(true, null, data));
             })
             // on catch les erreurs de l'appel
             .catch(error => {
-                resolve(new ServiceResponse(false, error.message, null));
+                resolve(new ServiceResponse(false, error, null));
             });
         })
     }
