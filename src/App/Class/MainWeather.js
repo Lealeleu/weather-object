@@ -15,6 +15,7 @@ class MainWeather {
     rain;
     snow;
     sun;
+    precipitation;
     visibility;
     weather;
     wind;
@@ -108,8 +109,47 @@ class MainWeather {
         tab4.innerHTML = `
             <h5 class="card-title">Ensoleillement</h5>
         `;
-        
+
         tab4.append(this.sun.getDom());
+
+        const tab5 = document.createElement('div');
+        tab5.className = "tab-pane fade";
+        tab5.id = "tab5";
+        tab5.setAttribute('role', 'tabpanel');
+        tab5.setAttribute('aria-labelledby', 'tab5-tab');
+        tab5.innerHTML = `
+            <h5 class="card-title">Précipitation</h5>
+        ` 
+        if (this.rain) {
+            const rain = document.createElement('div');
+            rain.innerHTML = `
+                <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                    <i class="bi bi-cloud-drizzle mx-2"></i>
+                        <span>Cumule de pluie : ${this.rain}mm</span>
+                    </div>
+                </div>
+            `;
+
+            tab5.append(rain);
+
+        } else if (this.snow) {
+            const snow = document.createElement('div');
+            snow.innerHTML = `
+                <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                    <i class="bi bi-snow2 mx-2"></i>
+                        <span>Cumule de neige: ${this.snow}mm</span>
+                    </div>
+                </div>
+
+            `;
+            tab5.append(snow);
+        };
+
+        
+
+
 
         // créer l'élément pour la liste des onglets
         const tabList = document.createElement('ul');
@@ -132,7 +172,15 @@ class MainWeather {
             <li class="nav-item" role="présentation">
                 <a class="nav-link" id="tab4-tab" data-bs-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Soleil</a>
             </li>
-        `;
+        `
+        if (this.rain || this.snow) {
+            tabList.innerHTML += `
+            <li class="nav-item" role="présentation">
+                <a class="nav-link" id="tab5-tab" data-bs-toggle="tab" href="#tab5" role="tab" aria-controls="tab5" aria-selected="false">Précipitations</a>
+            </li>
+            `
+        };
+        ;
 
         // créer l'élément pour le contenu de la carte
         const cardBody = document.createElement('div');
@@ -143,6 +191,7 @@ class MainWeather {
                 ${tab2.outerHTML}
                 ${tab3.outerHTML}
                 ${tab4.outerHTML}
+                ${tab5.outerHTML}
             </div>
         `;
 
