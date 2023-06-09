@@ -48,6 +48,8 @@ class MainWeather {
     
         this.wind = new Wind (MainWeatherLiteral.wind);
 
+
+
     }
 
     getDom() {
@@ -61,6 +63,12 @@ class MainWeather {
         tab1.setAttribute('aria-labelledby', 'tab1-tab');
         tab1.innerHTML = `
             <h5 class="card-title">Information générales</h5>
+          
+           
+            <div class="d-flex md-6">
+                <p class="card-title">${this.locationName}</p>
+                <p class="card-text ms-2 color_country">${this.country}</p>
+            </div>
         `;
 
         tab1.append(this.weather.getDom());
@@ -105,7 +113,7 @@ class MainWeather {
 
         // créer l'élément pour la liste des onglets
         const tabList = document.createElement('ul');
-        tabList.className = "nav nav-tabs card-header-tabs";
+        tabList.className = "nav nav-tabs card-header-tabs ms-0";
         tabList.id = "myTabs";
         tabList.setAttribute('role', 'tablist');
         tabList.innerHTML = `
@@ -150,6 +158,7 @@ class MainWeather {
     
         result.innerHTML = '';
         result.appendChild(cardContainer);
+        return cardContainer;
     }
 }
 
